@@ -8,25 +8,32 @@ using namespace P3_1;
 
 int addvector();
 
-IntVector Vectors[MS];
-int CS = 0;
+IntVector Vectors[MS];                                                          // array of class instances
+int CS = 0;                                                                     // size of array                
 
 int main() {
     std::cout << "Hello, what do you want?"<< std::endl;
-    int d;
-    addvector();
+
+    int q = addvector();                                                        // adding first vector
+    if (q == -1)
+        return 0;
     int CV = 0;
-    const char* msgs1[] = { "0. Quit", "1. Change vector", "2. Print vector", "3. Sum vectors", "4. Part of the vector", "5. Add element", "6. Sort vector", "7. Max element", "8. Add new vector" };
+
+    int d;
+    const char* msgs1[] = { "0. Quit", "1. Change vector", "2. Print vector", "3. Sum vectors",
+    "4. Part of the vector", "5. Add element", "6. Sort vector", "7. Max element", "8. Add new vector" };
+    
     while (1) {
         std::cout << std::endl << "Current vector is [" << CV << "], What do you want?" << std::endl;
         for (int i = 0; i < 9; i++) {
             std::cout << msgs1[i] << std::endl;
         }
         P3_1::getNum(d);
+
         switch (d) {
         case 0:
             std::cout << "Bye" << std::endl;
-            return 0;
+            return 0;                                                           // exit
         case 1: 
         {
             int num;
@@ -36,17 +43,13 @@ int main() {
                 std::cout << "No such vector, enter new number: ";
                 getNum(num);
             }
-            CV = num;
+            CV = num;                                                           // changing current vector
             continue;
         }
         case 2:
         {
-            try {
-                Vectors[CV].print(std::cout, 0, Vectors[CV].getCSz());
-            }
-            catch (std::exception& ex) {
-                std::cout << ex.what() << std::endl;
-            }
+            //Vectors[CV].print(std::cout, 0, Vectors[CV].getCSz());            // print without overload
+            std::cout << "Current vector elements: \n" << Vectors[CV];          // using overloaded <<
             continue;
         }
         case 3:
@@ -62,19 +65,21 @@ int main() {
                 std::cout << "No such vector, enter new number: ";
                 getNum(num);
             }
-            Vectors[CV].sum(Vectors[num]);
+            //Vectors[CV].sum(Vectors[num]);                                    // sum vectors without overload
+            Vectors[CV] += Vectors[num];                                        // using overloaded +=
+            std::cout << "Success" << std::endl;
             continue;
         }
         case 4:
         {
             int s;
-            std::cout << "Enter start element: ";
+            std::cout << "Enter start element: ";                               
             getNum(s);
             int l;
             std::cout << "Enter len: ";
             getNum(l);
             try {
-                Vectors[CV].print(std::cout, s, l);
+                Vectors[CV].print(std::cout, s, l);                             // print part of a vector with given length 
             }
             catch (std::exception& ex) {
                 std::cout << ex.what() << std::endl;
@@ -87,7 +92,7 @@ int main() {
             std::cout << "Enter element: ";
             getNum(e);
             try {
-                Vectors[CV].addEl(e);
+                Vectors[CV].addEl(e);                                           // including a new element in a vector
                 std::cout << "Success" << std::endl;
             }
             catch (std::exception& ex) {
@@ -97,14 +102,20 @@ int main() {
         }
         case 6:
         {
-            Vectors[CV].sort(0,Vectors[CV].getCSz()-1);
+            try {
+                Vectors[CV].sort(0, Vectors[CV].getCSz() - 1);                  // quicksort vector   
+            }
+            catch (std::exception& ex) {
+                std::cout << ex.what() << std::endl;
+            }
+            std::cout << "Success" << std::endl;
             continue;
         }
         case 7:
         {
             try {
-                std::cout << "Max element in current vector: " << Vectors[CV].maxNum() << std::endl;
-                }
+                std::cout << "Max element in current vector: " << Vectors[CV].maxNum() << std::endl;        
+                }                                                               // finding maximum element       
             catch (std::exception& ex) {
                 std::cout << ex.what() << std::endl;
                 }
@@ -117,23 +128,21 @@ int main() {
                 continue;
             }
             else {
-                int q = addvector();
+                int q = addvector();                                            // adding new vector
                 if (q == -1)
                     return 0;
             }
             continue;
         }
         default:
-
             std::cout << "Error!" << std::endl;
             continue;
-
         }
     }
     return 0;
 }
 
-int addvector() {
+int addvector() {                                                               // dialogue function for adding new vector
     const char* msgs[] = { "0. Quit", "1. Create empty vector", "2. Create 1 element vector", "3. Create normal vector" };
     int d, m = 1;
     while (m) {
@@ -141,12 +150,13 @@ int addvector() {
             std::cout << msgs[i] << std::endl;
         }
         P3_1::getNum(d);
+
         switch (d) {
         case 0:
             std::cout << "Bye" << std::endl;
-            return -1;
+            return -1;                                                          // exit
         case 1: {
-            IntVector a;
+            IntVector a;                                                        // default constructor
             Vectors[CS] = a;
             CS++;
             m = 0;
@@ -157,7 +167,7 @@ int addvector() {
             int el;
             std::cout << "Enter element: ";
             getNum(el);
-            IntVector a(el);
+            IntVector a(el);                                                    // 1 element constructor            
             Vectors[CS] = a;
             CS++;
             m = 0;
@@ -176,7 +186,7 @@ int addvector() {
                 els[i] = el1;
             }
             try {
-                IntVector a(s, els);
+                IntVector a(s, els);                                            // elements massive constructor
                 Vectors[CS] = a;
                 CS++;
                 m = 0;
@@ -194,4 +204,3 @@ int addvector() {
     }
     return 0;
 }
-
