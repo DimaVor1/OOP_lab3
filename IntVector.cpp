@@ -1,11 +1,11 @@
 #include "IntVector.h"
 namespace P3_1 {
 
-	IntVector::IntVector(int el) {						// 1 element constructor 
-		ar[0] = el;							// assignment to 0 element of the passed value
+	IntVector::IntVector(int el) {								// 1 element constructor 
+		ar[0] = el;									// assignment to 0 element of the passed value
 		cSZ = 1;
 	}
-	IntVector::IntVector(int size, const int* ar1) {			// elements massive constructor
+	IntVector::IntVector(int size, const int* ar1) {					// elements massive constructor
 		if (size > SZ)
 			throw std::exception("Vector owerflow");
 		for (int i = 0; i < size; i++) {
@@ -16,19 +16,19 @@ namespace P3_1 {
 
 
 
-	std::ostream& IntVector::print(std::ostream& s, int a, int l) const {	// output to stream and selection part of a vector with given length 
+	std::ostream& IntVector::print(std::ostream& s, int a, int l) const {			// output to stream and selection part of a vector with given length 
 		if (cSZ == 0)
 			s << "Vector is empty";
 		else if (a + l > cSZ)
 			s << "Too much elements";
 		else
-			for (int i = a; i < a + l; i++)				// in default output a = 0, l = cSZ
+			for (int i = a; i < a + l; i++)						// in default output a = 0, l = cSZ
 				s << ar[i] << ' ';
 		s << std::endl;
 		return s;
 	}
 
-	std::ostream& operator <<(std::ostream& s, const IntVector& iv) {	// << overload
+	std::ostream& operator <<(std::ostream& s, const IntVector& iv) {			// << overload
 		if (iv.cSZ == 0)
 			s << "Vector is empty";
 		else
@@ -40,13 +40,13 @@ namespace P3_1 {
 
 
 
-	void IntVector::sum(const IntVector& other) {				// sum vectors (v0+=v1)
+	void IntVector::sum(const IntVector& other) {						// sum vectors (v0+=v1)
 		int x;
 		if (other.cSZ <= cSZ)
 			x = cSZ;
 		else
 			x = other.cSZ;
-		for (int i = 0; i < x; i++) {					// componentwise addition of the second vector to the first 
+		for (int i = 0; i < x; i++) {							// componentwise addition of the second vector to the first 
 			if (i < cSZ && i < other.cSZ)
 				ar[i] += other.ar[i];
 			else if (i >= cSZ) {
@@ -56,13 +56,13 @@ namespace P3_1 {
 		}
 	}
 
-	IntVector& IntVector::operator +=(const IntVector& iv) {		// += overload
+	IntVector& IntVector::operator +=(const IntVector& iv) {				// += overload
 		int x;
 		if (iv.cSZ <= cSZ)
 			x = cSZ;
 		else
 			x = iv.cSZ;
-		for (int i = 0; i < x; i++) {					// componentwise addition of the transferred vector to this
+		for (int i = 0; i < x; i++) {							// componentwise addition of the transferred vector to this
 			if (i < cSZ && i < iv.cSZ)
 				ar[i] += iv.ar[i];
 			else if (i >= cSZ) {
@@ -75,7 +75,7 @@ namespace P3_1 {
 
 
 
-	void IntVector::addEl(int el) {						// including a new element in a vector
+	void IntVector::addEl(int el) {								// including a new element in a vector
 		if (cSZ == SZ)
 			throw std::exception("Vector owerflow");
 		ar[cSZ] = el;
@@ -84,7 +84,7 @@ namespace P3_1 {
 
 
 
-	void IntVector::sort(int first, int last) {				// quicksort vector			
+	void IntVector::sort(int first, int last) {						// quicksort vector			
 		if (cSZ == 0)
 			throw std::exception("Vector is empty");
 		int i = first, j = last, x = ar[(first + last) / 2];
@@ -108,7 +108,7 @@ namespace P3_1 {
 
 
 
-	int IntVector::maxNum() const {						// finding maximum element
+	int IntVector::maxNum() const {								// finding maximum element
 		if (cSZ == 0)
 			throw std::exception("Vector is empty");
 		int m = ar[0];
@@ -121,24 +121,21 @@ namespace P3_1 {
 
 
 
-
-
-
-	IntVector IntVector::operator -() {					// - overload	
-		for (int i = 0; i < cSZ; i++) {
+	IntVector& const IntVector::operator -() {						// - overload	
+		for (int i = 0; i < cSZ; i++) {	
 			ar[i] = -ar[i];
 		}
 		return *this;
 	}
 
-	IntVector operator +(const IntVector& iv1, const IntVector& iv2) {	// + overload
+	const IntVector operator +(const IntVector& iv1, const IntVector& iv2) {		// + overload
 		IntVector iv3;
 		int x;
 		if (iv1.cSZ <= iv2.cSZ)
 			x = iv2.cSZ;
 		else
 			x = iv1.cSZ;
-		for (int i = 0; i < x; i++) {					// componentwise addition of two vectors
+		for (int i = 0; i < x; i++) {							// componentwise addition of two vectors
 			if (i < iv1.cSZ && i < iv2.cSZ)
 				iv3.addEl(iv1.ar[i] + iv2.ar[i]);
 			else if (i >= iv1.cSZ)
@@ -149,20 +146,20 @@ namespace P3_1 {
 		return iv3;
 	}
 
-	int& IntVector::operator[] (const int index) {				// [] overload
+	int& IntVector::operator[] (const int index) {						// [] overload
 		if (index < 0 || index >= SZ)
 			throw std::exception("Incorrect index");
 		return ar[index];
 	}
 
-	IntVector& IntVector::operator++() {					// pre ++ overload
+	IntVector& IntVector::operator++() {							// pre ++ overload
 		for (int i = 0; i < cSZ; i++) {
 			ar[i]++;
 		}
 		return *this;
 	}
 
-	IntVector IntVector::operator++(int) {					// post ++ overload
+	IntVector IntVector::operator++(int) {							// post ++ overload
 		IntVector temp = *this;
 		++* this;
 		return temp;
