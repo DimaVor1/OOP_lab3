@@ -41,8 +41,8 @@ namespace P3_1 {
 		IntVector& operator++();							// pre++ overload
 		IntVector operator++(int);							// post++ overload
 
-		int getArEl(int i) { return ar[i]; }						// getters
-		int getCSz() { return cSZ; }							// getters
+		int getArEl(int i) const { return ar[i]; }					// getters
+		int getCSz() const { return cSZ; }						// getters
 		~IntVector() = default;								// destructor
 	};
 
